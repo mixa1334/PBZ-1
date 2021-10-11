@@ -14,7 +14,7 @@ JOIN project ON project.id = project_id
 WHERE supplier.city <> detail.city AND supplier.city <> project.city AND detail.city <> project.city;
 
 -- 11
-SELECT project.city AS "project city", supplier.city AS "supplier city"
+SELECT DISTINCT project.city AS "project city", supplier.city AS "supplier city"
 FROM deliveries
 JOIN supplier ON supplier.id = supplier_id
 JOIN project ON project.id = project_id;
@@ -70,8 +70,8 @@ SELECT DISTINCT d1.supplier_id AS "ID 1", d2.supplier_id AS "ID 2"
 FROM deliveries d1
 JOIN deliveries d2
 ON (
-	SELECT COUNT(DISTINCT t.detail_id) FROM deliveries t WHERE t.supplier_id = d1.supplier_id
+	SELECT COUNT(t.detail_id) FROM deliveries t WHERE t.supplier_id = d1.supplier_id
 	) = (
-    SELECT COUNT(DISTINCT t.detail_id) FROM deliveries t WHERE t.supplier_id = d2.supplier_id
+    SELECT COUNT(t.detail_id) FROM deliveries t WHERE t.supplier_id = d2.supplier_id
     ) 
     AND d1.supplier_id <> d2.supplier_id;
